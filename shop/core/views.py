@@ -6,29 +6,34 @@ from django.contrib import messages
 from django.utils import timezone
 from django.core.exceptions import ObjectDoesNotExist
 from django.views.generic import ListView, DetailView, View
+from django.http import JsonResponse
 
 
-def item_list(request):
-    context = {
-        'items': Item.objects.all()
-    }
-    return render(request, 'index.html', context)
+class ItemView(ListView):
+    model = Item
+    template_name = 'management.html'
+    context_object_name = 'Товары'
 
 
-# def box(request):
-#     order_qs = Order.objects.filter(user=request.user, ordered=False)
-#     context = {
-#         'items': Item.objects.all()
-#     }
-#     print(order_qs[0].items.objects.all())
-#     return render(request, 'cart.html', context)
-#
+class CreateCrudItem(View):
 
-def manage_items(request):
-    context = {
-        'items': Item.objects.all()
-    }
-    return render(request, 'management.html', context)
+    def get(self, request):
+        name1 = request.GET.get('name', None)
+        address1 = request.GET.get('address', None)
+        age1 = request.GET.get('age', None)
+
+        obj = Item.objects.create(
+            title = name1,
+            price = address1,
+            category = age1
+        )
+
+        user = {'id':obj.id,'name':obj.name,'address':obj.address,'age':obj.age}
+
+        data = {
+            'user': user
+        }
+        return JsonResponse(data)
 
 
 def item_new(request):
