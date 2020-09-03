@@ -9,29 +9,58 @@ from django.views.generic import ListView, DetailView, View
 from django.http import JsonResponse
 
 
-class ItemView(ListView):
-    model = Item
-    template_name = 'management.html'
-    context_object_name = 'Товары'
+def item_list(request):
+    context = {
+        'items': Item.objects.all()
+    }
+    return render(request, 'index.html', context)
 
 
-class CreateCrudItem(View):
+class UpdateCrudItem(View):
 
     def get(self, request):
+        id1 = request.GET.get('id', None)
         name1 = request.GET.get('name', None)
         address1 = request.GET.get('address', None)
         age1 = request.GET.get('age', None)
 
-        obj = Item.objects.create(
-            title = name1,
-            price = address1,
-            category = age1
-        )
+        obj = Item.objects.get(id=id1)
+        obj.name = name1
+        obj.address = address1
+        obj.age = age1
+        obj.save()
 
         user = {'id':obj.id,'name':obj.name,'address':obj.address,'age':obj.age}
 
         data = {
             'user': user
+        }
+        return JsonResponse(data)
+
+
+class ItemView(ListView):
+    model = Item
+    template_name = 'management.html'
+    context_object_name = 'items'
+
+
+class CreateCrudItem(View):
+
+    def get(self, request):
+        title = 'sdfsdf'
+        print(title)
+        cat = request.GET.get('cat', None)
+        price = request.GET.get('price', None)
+        obj = Item.objects.create(
+            title=title,
+            price=price,
+            category=cat
+        )
+
+        item = {'id':obj.id,'name':obj.title,'price':obj.price, 'cat': obj.category}
+
+        data = {
+            'item': item
         }
         return JsonResponse(data)
 

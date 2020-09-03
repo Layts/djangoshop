@@ -4,6 +4,7 @@ from .views import *
 
 app_name = 'core'
 urlpatterns = [
+    path('', item_list, name='item-list'),
     path('manage/', ItemView.as_view(), name='manage'),
     path('item/new/', item_new, name='item_new'),
     path('add-to-cart/<slug>/', add_to_cart, name='add-to-cart'),
@@ -13,4 +14,5 @@ urlpatterns = [
     path('autodif/', AutoDif.as_view(), name='autodif'),
     path('candle/', Candle.as_view(), name='candle'),
     path('ajax/crud/create/',  CreateCrudItem.as_view(), name='crud_ajax_create'),
+    path('ajax/crud/update/',  UpdateCrudItem.as_view(), name='crud_ajax_update'),
     ]
