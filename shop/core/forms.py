@@ -1,10 +1,7 @@
 from django import forms
-from .models import Item
 
 
-class ItemForm(forms.ModelForm):
-
-    class Meta:
-        model = Item
-        fields = ('title', 'price', 'photo')
-
+class ItemForm(forms.Form):
+    title = forms.CharField()
+    price = forms.IntegerField()
+    photo = forms.ImageField()
