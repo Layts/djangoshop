@@ -97,31 +97,23 @@ class ItemView(ListView):
 #             }
 #         return JsonResponse(data)
 
-
+# TODO сделать норм редиректы
 def add_to_cart(request, slug):
-
     item = get_object_or_404(Item, slug=slug)
     try:
         request.session['order']
         try:
-            request.session['order'][item]
-
+            quantity = request.session['order'][item.slug]
+            request.session['order'][item.slug] = quantity+1
+            request.session.modified = True
+            return redirect('/')
         except KeyError:
-            return redirect("/")
-        # if order.items.filter(item__slug=item.slug).exists():
-        #     order.items.get(item__slug=item.slug).quantity += 1
-        #     order.items.get(item__slug=item.slug).save()
-        #     messages.info(request, "This item quantity was updated.")
-        #     return redirect("/")
-        # else:
-        #     request.session['order'].append(item)
-        #     messages.info(request, "This item was added to your cart.")
-        #     return redirect("/")
+            request.session['order'][item.slug] = 1
+            request.session.modified = True
+            return redirect('/')
     except KeyError:
-        request.session['order'] = {}
-        request.session['order'].update({item.slug: 1})
-        messages.info(request, "This item was added to your cart.")
-        return redirect("/")
+        request.session['order'][item.slug] = 1
+        return redirect('/')
 
 
 def remove_from_cart(request, slug):
@@ -153,11 +145,12 @@ def remove_from_cart(request, slug):
 
 # TODO сделать заебись
 class OrderSummaryView(View):
+
     def get(self, *args, **kwargs):
         try:
-            order = Order.objects.get(user=self.request.session.session_key, ordered=False)
+            items = [[get_object_or_404(Item, slug=i), self.request.session['order'][i]] for i in self.request.session['order'].keys()]
             context = {
-                'items': order.items.filter()
+                'items': items
             }
             return render(self.request, 'cart.html', context)
         except ObjectDoesNotExist:
@@ -174,7 +167,6 @@ class Items(View):
     cat = 'Категория'
 
     def get(self, *args, **kwargs):
-        print(self.request.session.session_key)
         context = {
             'items': Item.objects.filter(category=Category.objects.get(title=self.cat))
         }
