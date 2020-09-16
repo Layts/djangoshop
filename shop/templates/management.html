@@ -2,117 +2,117 @@
 {% load static %}
 
 {% block content %}
-    <!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8" />
-    <title>Модели в Django</title>
-</head>
-<body class="container">
-    <form method="POST" action="create/">
-        {% csrf_token %}
-        <p>
-            <label>Введите имя</label><br>
-            <input type="text" name="name" />
-        </p>
-        <p>
-            <label>Введите возраст</label><br>
-            <input type="number" name="age" />
-        </p>
-        <input type="submit" value="Сохранить" >
-    </form>
-    {% if people.count > 0 %}
-    <h2>Список пользователей</h2>
-    <table>
-        <tr><th>Id</th><th>Имя</th><th>Возраст</th></tr>
-        {% for person in people %}
-        <tr><td>{{ person.id }}</td><td>{{ person.name }}</td><td>{{ person.age }}</td></tr>
-        {% endfor %}
-    </table>
-    {% endif %}
-</body>
-</html>
+{#    <!DOCTYPE html>#}
+{#<html>#}
+{#<head>#}
+{#    <meta charset="utf-8" />#}
+{#    <title>Модели в Django</title>#}
+{#</head>#}
+{#<body class="container">#}
+{#    <form method="POST" action="create/">#}
+{#        {% csrf_token %}#}
+{#        <p>#}
+{#            <label>Введите имя</label><br>#}
+{#            <input type="text" name="name" />#}
+{#        </p>#}
+{#        <p>#}
+{#            <label>Введите возраст</label><br>#}
+{#            <input type="number" name="age" />#}
+{#        </p>#}
+{#        <input type="submit" value="Сохранить" >#}
+{#    </form>#}
+{#    {% if people.count > 0 %}#}
+{#    <h2>Список пользователей</h2>#}
+{#    <table>#}
+{#        <tr><th>Id</th><th>Имя</th><th>Возраст</th></tr>#}
+{#        {% for person in people %}#}
+{#        <tr><td>{{ person.id }}</td><td>{{ person.name }}</td><td>{{ person.age }}</td></tr>#}
+{#        {% endfor %}#}
+{#    </table>#}
+{#    {% endif %}#}
+{#</body>#}
+{#</html>#}
 {##}
-{#<div class="container">#}
-{#    <h1>Товары</h1>#}
-{#    <div class="row">#}
-{#      <div class="col-md-4 ">#}
-{#        <h3>Добавить</h3>#}
-{#        <form id="addItem" action="">#}
-{#          <div class="form-group">#}
-{#            <input class="form-control" type="text" name="title" placeholder="Название" required>#}
-{#          </div>#}
-{#          <div class="form-group">#}
-{##}
-{#            <select class="form-control" type="" name="cat" placeholder="Категория" required>#}
-{#                <option>Свеча</option>#}
-{#                <option>Диффузор</option>#}
-{#                <option>Автодиффузор</option>#}
-{#            </select>#}
-{#          </div>#}
-{#          <div class="form-group">#}
-{#            <input class="form-control" type="number" name="price" placeholder="Цена" required>#}
-{#            </div>#}
-{#          <input type="submit" value="OK">#}
-{#        </form>#}
-{#      </div>#}
-{#      <div class="col-md-8">#}
-{#        <h3>Список</h3>#}
-{#        <table id="userTable" class="table table-striped">#}
-{#          <tr>#}
-{#            <th>Название</th>#}
-{#            <th>Категория</th>#}
-{#            <th colspan="3">Число</th>#}
-{#          </tr>#}
-{#          {% if items %}#}
-{#          {% for item in items %}#}
-{#          <tr id="user-{{item.id}}">#}
-{#              <td class="userName userData" name="name">{{item.title}}</td>#}
-{#              <td class="userAddress userData" name="price">{{item.price}}</td>#}
-{#              <td class="userAge userData" name="age">{{user.price}}</td>#}
-{#              <td align="center">#}
-{#                  <button class="btn btn-success form-control"#}
-{#                          onClick="editUser({{user.id}})" data-toggle="modal" data-target="#myModal") >EDIT#}
-{#                  </button>#}
-{#              </td>#}
-{#              <td align="center">#}
-{#                  <button class="btn btn-danger form-control" onClick="deleteUser({{user.id}})">DELETE</button>#}
-{#              </td>#}
-{#          </tr>#}
-{#          {% endfor %}#}
-{#          {% else %}#}
-{#            No Users#}
-{#          {% endif %}#}
-{#        </table>#}
-{#      </div>#}
-{#    </div>#}
-{#  </div>#}
-{#  <!-- Modal -->#}
-{#  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">#}
-{#    <div class="modal-dialog" role="document">#}
-{#      <div class="modal-content">#}
-{#        <div class="modal-header">#}
-{#          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>#}
-{#          <h4 class="modal-title" id="myModalLabel">Update User</h4>#}
-{#        </div>#}
-{#        <form id="updateUser" action="">#}
-{#        <div class="modal-body">#}
-{#            <input class="form-control" id="form-id" type="hidden" name="formId"/>#}
-{#            <label for="name">Name</label>#}
-{#            <input class="form-control" id="form-name" type="text" name="formName"/>#}
-{#            <label for="address">Address</label>#}
-{#            <input class="form-control" id="form-address" type="text" name="formAddress"/>#}
-{#            <label for="age">Age</label>#}
-{#            <input class="form-control" id="form-age" type="number" name="formAge" min=10 max=100/>#}
-{#        </div>#}
-{#        <div class="modal-footer">#}
-{#            <button type="submit" class="btn btn-primary" >Save changes</button>#}
-{#            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>#}
-{#        </div>#}
-{#        </form>#}
-{#      </div>#}
-{#    </div>#}
-{#  </div>#}
+<div class="container">
+    <h1>Товары</h1>
+    <div class="row">
+      <div class="col-md-4 ">
+        <h3>Добавить</h3>
+        <form id="addItem" action="">
+          <div class="form-group">
+            <input class="form-control" type="text" name="title" placeholder="Название" required>
+          </div>
+          <div class="form-group">
+
+            <select class="form-control" type="" name="cat" placeholder="Категория" required>
+                <option>Свеча</option>
+                <option>Диффузор</option>
+                <option>Автодиффузор</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <input class="form-control" type="number" name="price" placeholder="Цена" required>
+            </div>
+          <input type="submit" value="OK">
+        </form>
+      </div>
+      <div class="col-md-8">
+        <h3>Список</h3>
+        <table id="userTable" class="table table-striped">
+          <tr>
+            <th>Название</th>
+            <th>Категория</th>
+            <th colspan="3">Число</th>
+          </tr>
+          {% if items %}
+          {% for item in items %}
+          <tr id="user-{{item.id}}">
+              <td class="userName userData" name="name">{{item.title}}</td>
+              <td class="userAddress userData" name="price">{{item.price}}</td>
+              <td class="userAge userData" name="age">{{user.price}}</td>
+              <td align="center">
+                  <button class="btn btn-success form-control"
+                          onClick="editUser({{user.id}})" data-toggle="modal" data-target="#myModal") >EDIT
+                  </button>
+              </td>
+              <td align="center">
+                  <button class="btn btn-danger form-control" onClick="deleteUser({{user.id}})">DELETE</button>
+              </td>
+          </tr>
+          {% endfor %}
+          {% else %}
+            No Users
+          {% endif %}
+        </table>
+      </div>
+    </div>
+  </div>
+  <!-- Modal -->
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+          <h4 class="modal-title" id="myModalLabel">Update User</h4>
+        </div>
+        <form id="updateUser" action="">
+        <div class="modal-body">
+            <input class="form-control" id="form-id" type="hidden" name="formId"/>
+            <label for="name">Name</label>
+            <input class="form-control" id="form-name" type="text" name="formName"/>
+            <label for="address">Address</label>
+            <input class="form-control" id="form-address" type="text" name="formAddress"/>
+            <label for="age">Age</label>
+            <input class="form-control" id="form-age" type="number" name="formAge" min=10 max=100/>
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-primary" >Save changes</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+        </form>
+      </div>
+    </div>
+  </div>
 
 {% endblock %}
 

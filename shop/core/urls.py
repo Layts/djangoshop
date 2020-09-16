@@ -13,9 +13,9 @@ urlpatterns = [
     path('autodif/', AutoDif.as_view(), name='autodif'),
     path('candle/', Candle.as_view(), name='candle'),
     path('create/', index, name='index'),
-    path('box/tgbot', tgbot, name='tgbot')
+    path('box/tgbot', tgbot, name='tgbot'),
     # path('order/', Order.as_view(), name='order'),
-    # path('ajax/crud/create/',  CreateCrudItem.as_view(), name='crud_ajax_create'),
-    # path('ajax/crud/update/',  UpdateCrudItem.as_view(), name='crud_ajax_update'),
-    # path('ajax/crud/delete/',  DeleteCrudItem.as_view(), name='crud_ajax_delete'),
+    path('ajax/crud/create/',  CreateCrudItem.as_view(), name='crud_ajax_create'),
+    path('ajax/crud/update/',  UpdateCrudItem.as_view(), name='crud_ajax_update'),
+    path('ajax/crud/delete/',  DeleteCrudItem.as_view(), name='crud_ajax_delete'),
     ]

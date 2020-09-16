@@ -1,8 +1,8 @@
 from django.shortcuts import render, get_object_or_404
 from .models import Item, OrderItem, Order, Category
 from .forms import ItemForm
-from django.http import HttpResponseRedirect
-from django.shortcuts import redirect
+from django.http import HttpResponseRedirect, JsonResponse
+from django.shortcuts import redirect, HttpResponse
 from django.contrib import messages
 from django.utils import timezone
 from django.core.exceptions import ObjectDoesNotExist
@@ -28,26 +28,26 @@ def item_list(request):
     return render(request, 'index.html', context)
 
 
-# class UpdateCrudItem(View):
-#
-#     def get(self, request):
-#         id1 = request.GET.get('id', None)
-#         name1 = request.GET.get('name', None)
-#         address1 = request.GET.get('address', None)
-#         age1 = request.GET.get('age', None)
-#
-#         obj = Item.objects.get(id=id1)
-#         obj.name = name1
-#         obj.address = address1
-#         obj.age = age1
-#         obj.save()
-#
-#         user = {'id':obj.id,'name':obj.name,'address':obj.address,'age':obj.age}
-#
-#         data = {
-#             'user': user
-#         }
-#         return JsonResponse(data)
+class UpdateCrudItem(View):
+
+    def get(self, request):
+        id1 = request.GET.get('id', None)
+        name1 = request.GET.get('name', None)
+        address1 = request.GET.get('address', None)
+        age1 = request.GET.get('age', None)
+
+        obj = Item.objects.get(id=id1)
+        obj.name = name1
+        obj.address = address1
+        obj.age = age1
+        obj.save()
+
+        user = {'id':obj.id,'name':obj.name,'address':obj.address,'age':obj.age}
+
+        data = {
+            'user': user
+        }
+        return JsonResponse(data)
 
 
 class ItemView(ListView):
@@ -56,53 +56,53 @@ class ItemView(ListView):
     context_object_name = 'items'
 
 
-# class CreateCrudItem(View):
+class CreateCrudItem(View):
+
+    def post(self, request):
+        title = 'sdfsdf'
+        print(title)
+        cat = request.GET.get('cat', None)
+        price = request.GET.get('price', None)
+        obj = Item.objects.create(
+            title=title,
+            price=price,
+            category=cat
+        )
+
+        item = {'id':obj.id,'name':obj.title,'price':obj.price, 'cat': obj.category}
+
+        data = {
+            'item': item
+        }
+        return JsonResponse(data)
 #
-#     def post(self, request):
-#         title = 'sdfsdf'
-#         print(title)
-#         cat = request.GET.get('cat', None)
-#         price = request.GET.get('price', None)
-#         obj = Item.objects.create(
-#             title=title,
-#             price=price,
-#             category=cat
-#         )
 #
-#         item = {'id':obj.id,'name':obj.title,'price':obj.price, 'cat': obj.category}
-#
-#         data = {
-#             'item': item
-#         }
-#         return JsonResponse(data)
-#
-#
-# class DeleteCrudItem(View):
-#
-#     def get(self, request):
-#         title = 'sdfsdf'
-#         print(title)
-#         cat = request.GET.get('cat', None)
-#         price = request.GET.get('price', None)
-#         obj = Item.objects.create(
-#                 title=title,
-#                 price=price,
-#                 category=cat
-#             )
-#
-#         item = {'id': obj.id, 'name': obj.title, 'price': obj.price, 'cat': obj.category}
-#
-#         data = {
-#                 'item': item
-#             }
-#         return JsonResponse(data)
+class DeleteCrudItem(View):
+
+    def get(self, request):
+        title = 'sdfsdf'
+        print(title)
+        cat = request.GET.get('cat', None)
+        price = request.GET.get('price', None)
+        obj = Item.objects.create(
+                title=title,
+                price=price,
+                category=cat
+            )
+
+        item = {'id': obj.id, 'name': obj.title, 'price': obj.price, 'cat': obj.category}
+
+        data = {
+                'item': item
+            }
+        return JsonResponse(data)
 
 
 def tgbot(request):
-    if request.method =='POST':
         print(request.body)
         print(request.POST)
-        return redirect('/')
+        message = 'Все норм'
+        return HttpResponseRedirect('/')
 
 
 # TODO сделать норм редиректы
@@ -164,6 +164,12 @@ class OrderSummaryView(View):
         except ObjectDoesNotExist:
             messages.warning(self.request, "You do not have an active order")
             return redirect("/")
+
+    def post(self):
+        print(self.request.body)
+        print(self.request.POST)
+        print('sdfdsfdsf')
+        return HttpResponseRedirect('/')
 
 
 class ItemDetailView(DetailView):
