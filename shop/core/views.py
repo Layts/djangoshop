@@ -97,6 +97,14 @@ class ItemView(ListView):
 #             }
 #         return JsonResponse(data)
 
+
+def tgbot(request):
+    if request.method =='POST':
+        print(request.body)
+        print(request.POST)
+        return redirect('/')
+
+
 # TODO сделать норм редиректы
 def add_to_cart(request, slug):
     item = get_object_or_404(Item, slug=slug)
